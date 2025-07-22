@@ -11,6 +11,9 @@
 //         echo "Number is three";
 //         break;
 // }
+if(5<>'5'){
+    echo "true";    
+}
 $arr = array(1, 2, 3);
 foreach($arr as $key=>$value){
     echo  "Key: $key, Value: $value<br>";
@@ -23,7 +26,8 @@ echo 'the post value is '. $_POST['name'];
     <input type='text' name='name' placeholder='Enter your name'>
     <input type='submit' value='Submit'>    
 </form>
-<form method='post' action="">
-    <input type='text' name='name' placeholder='Enter your name'>
-    <input type='submit' value='Submit'>    
+<!-- POST Form -->
+<form method="post" action="test.php">
+    <input type="text" name="name" placeholder="Enter your name (POST)">
+    <button type="submit">Send via POST</button>
 </form>
