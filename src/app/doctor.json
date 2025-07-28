@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "name": "Dr. Sarah Khan",
+    "specialty": "Cardiologist",
+    "bio": "10+ years experience in treating heart-related conditions.",
+    "phone": "+92 300 1112233"
+  },
+  {
+    "id": "2",
+    "name": "Dr. Ali Raza",
+    "specialty": "Dermatologist",
+    "bio": "Expert in treating skin and cosmetic conditions.",
+    "phone": "+92 300 4455667"
+  },
+  {
+    "id": "3",
+    "name": "Dr. Ayesha Ahmed",
+    "specialty": "Pediatrician",
+    "bio": "Specialist in children’s health and wellness.",
+    "phone": "+92 301 8899776"
+  }
+]
