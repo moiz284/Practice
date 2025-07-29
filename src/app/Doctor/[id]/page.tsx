@@ -1,54 +1,67 @@
 "use client";
 import { useEffect, useState } from "react";
-// import doctor from "../../doctor.json";
+import Link from "next/link";
+// Doctor type
+interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  bio: string;
+  phone: string;
+}
 
 export default function DoctorsPage() {
-  const [doctors, setDoctors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [specialty, setSpecialty] = useState("");
-
-  const filtered = specialty
-    ? doctors.filter((doc) => doc.specialty === specialty)
-    : doctors;
-
-  {
-    /* <select
-  className="border p-2 rounded mt-4"
-  value={specialty}
-  onChange={(e) => setSpecialty(e.target.value)}
->
-  <option value="">All Specialties</option>
-  <option value="Cardiology">Cardiology</option>
-  <option value="Dermatology">Dermatology</option>
-  <option value="Pediatrics">Pediatrics</option>
-</select> */
-  }
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
 
   useEffect(() => {
-    async function fetchDoctors() {
-      const res = await fetch("../../doctor.json"); // or static JSON
-      const data = await res.json();
-      setDoctors(data);
-      setLoading(false);
-    }
-    fetchDoctors();
+    // Simulate fetch from local JSON
+    import("../../doctor.json").then((mod) => setDoctors(mod.default));
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  // Get unique specialties
+  const specialties = Array.from(new Set(doctors.map((d) => d.specialty)));
+
+  // Handle checkbox change
+  const handleSpecialtyChange = (specialty: string) => {
+    setSelectedSpecialties((prev) =>
+      prev.includes(specialty)
+        ? prev.filter((s) => s !== specialty)
+        : [...prev, specialty]
+    );
+  };
+
+  // Filter doctors by selected specialties
+  const filteredDoctors =
+    selectedSpecialties.length === 0
+      ? doctors
+      : doctors.filter((d) => selectedSpecialties.includes(d.specialty));
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Doctor List</h1>
-      <ul className="mt-4 space-y-2">
-        {doctors.map((doc: any) => (
-          <li key={doc.id} className="border p-4 rounded shadow">
-            <p>
-              <strong>{doc.name}</strong>
-            </p>
-            <p>{doc.specialty}</p>
+    <main className="max-w-3xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-6">Doctors</h1>
+      {/* Specialty checkboxes */}
+      <div className="mb-6 flex flex-wrap gap-4">
+        {specialties.map((specialty) => (
+          <label key={specialty} className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={selectedSpecialties.includes(specialty)}
+              onChange={() => handleSpecialtyChange(specialty)}
+            />
+            {specialty}
+          </label>
+        ))}
+      </div>
+      <ul className="space-y-4">
+        {filteredDoctors.map((doctor) => (
+          <li key={doctor.id} className="border p-4 rounded">
+            <h2 className="text-xl font-semibold">{doctor.name}</h2>
+            <p>{doctor.specialty}</p>
           </li>
         ))}
       </ul>
-    </div>
+      <Link href="/"> Go back</Link>
+    </main>
   );
 }
